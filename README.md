@@ -27,14 +27,20 @@ deepstream-triton-yolo/
 │   ├── nvdsinfer_yolo.cpp
 │   ├── Makefile
 │   └── libnvds_infer_yolo.so
-└── triton-grpc/
+├── triton-grpc/                  # DeepStream pgie configs
+│   ├── yolov7/
+│   ├── yolov8/
+│   └── yolov9/
+└── triton_models/                # Triton model repository
     ├── yolov7/
-    │   ├── pgie_yolov7_det.txt
-    │   └── nvdsinfer_yolo/
+    │   ├── config.pbtxt
+    │   └── 1/model.plan          # Place your engine here
     ├── yolov8/
-    │   └── pgie_yolov8*.txt
+    │   ├── config.pbtxt
+    │   └── 1/model.plan
     └── yolov9/
-        └── pgie_yolov9*.txt
+        ├── config.pbtxt
+        └── 1/model.plan
 ```
 
 ## Quick Start
@@ -70,62 +76,24 @@ trtexec --onnx=yolov7.onnx \
 ```
 
 ### 3. Setup Triton Model Repository
-```
-triton_models/
-└── yolov7/
-    ├── config.pbtxt
-    └── 1/
-        └── model.plan
-```
-
-**config.pbtxt:**
-```
-name: "yolov7"
-platform: "tensorrt_plan"
-max_batch_size: 8
-
-input [
-  {
-    name: "images"
-    data_type: TYPE_FP32
-    dims: [ 3, 640, 640 ]
-  }
-]
-
-output [
-  {
-    name: "num_dets"
-    data_type: TYPE_INT32
-    dims: [ 1 ]
-  },
-  {
-    name: "det_boxes"
-    data_type: TYPE_FP32
-    dims: [ 100, 4 ]
-  },
-  {
-    name: "det_scores"
-    data_type: TYPE_FP32
-    dims: [ 100 ]
-  },
-  {
-    name: "det_classes"
-    data_type: TYPE_INT32
-    dims: [ 100 ]
-  }
-]
-
-instance_group [
-  {
-    count: 1
-    kind: KIND_GPU
-  }
-]
+Copy your TensorRT engine to the model directory:
+```bash
+cp yolov7.engine triton_models/yolov7/1/model.plan
+cp yolov8.engine triton_models/yolov8/1/model.plan
+cp yolov9.engine triton_models/yolov9/1/model.plan
 ```
 
 ### 4. Start Triton Server
 ```bash
-tritonserver --model-repository=/path/to/triton_models
+tritonserver --model-repository=./triton_models
+```
+
+Or with Docker:
+```bash
+docker run --gpus all --rm -p 8000:8000 -p 8001:8001 -p 8002:8002 \
+  -v $(pwd)/triton_models:/models \
+  nvcr.io/nvidia/tritonserver:24.08-py3 \
+  tritonserver --model-repository=/models
 ```
 
 ### 5. Build Custom Parser Library
