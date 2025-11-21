@@ -175,6 +175,7 @@ The end-to-end NMS model outputs:
 - `det_classes`: Class indices [batch_size, topk]
 
 ## Acknowledgements
+- [deepstream-triton-server-yolo](https://github.com/levipereira/deepstream-triton-server-yolo) - Original implementation by Levi Pereira
 - [NVIDIA DeepStream SDK](https://developer.nvidia.com/deepstream-sdk)
 - [Triton Inference Server](https://github.com/triton-inference-server/server)
 - [YOLOv7](https://github.com/WongKinYiu/yolov7)
