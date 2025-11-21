@@ -99,7 +99,7 @@ docker run --gpus all --rm -p 8000:8000 -p 8001:8001 -p 8002:8002 \
 ### 5. Build Custom Parser Library
 ```bash
 cd nvdsinfer_yolo
-make
+make all && make install 
 ```
 
 ### 6. Run DeepStream
