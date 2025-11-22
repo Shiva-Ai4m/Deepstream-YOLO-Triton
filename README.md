@@ -60,27 +60,8 @@ python export.py --weights yolov7.pt --grid --end2end --simplify \
 ```bash
 git clone https://github.com/triple-Mu/YOLOv8-TensorRT
 cd YOLOv8-TensorRT
-```
-
-Update `export-det.py` output names for DeepStream compatibility:
-```python
-# Change line 90 from:
-output_names=['num_dets', 'bboxes', 'scores', 'labels'],
-# To:
-output_names=['num_dets', 'det_boxes', 'det_scores', 'det_classes'],
-
-# Change dynamic_axes (lines 77-83) from:
-'bboxes': {0: 'batch'},
-'scores': {0: 'batch'},
-'labels': {0: 'batch'}
-# To:
-'det_boxes': {0: 'batch'},
-'det_scores': {0: 'batch'},
-'det_classes': {0: 'batch'}
-```
-
-Then export:
-```bash
+# Copy the modified export script from this repo
+cp /path/to/deepstream-triton-yolo/export-det.py .
 python3 export-det.py --weights yolov8s.pt --iou-thres 0.65 \
     --conf-thres 0.25 --topk 100 --opset 11 --sim \
     --input-shape 1 3 640 640 --device cuda:0 --dynamic
