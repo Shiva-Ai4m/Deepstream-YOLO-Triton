@@ -88,6 +88,7 @@ nvbuf-memory-type=0
 ## yolov8
 #config-file=./triton-grpc/yolov8/pgie_yolov8n_det.txt
 #config-file=./triton-grpc/yolov8/pgie_yolov8s_det.txt
+#config-file=./triton-grpc/yolov8/pgie_yolov8s_det_test.txt
 #config-file=./triton-grpc/yolov8/pgie_yolov8m_det.txt
 #config-file=./triton-grpc/yolov8/pgie_yolov8l_det.txt
 #config-file=./triton-grpc/yolov8/pgie_yolov8x_det.txt

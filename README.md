@@ -9,6 +9,7 @@ Run YOLO models (YOLOv7, YOLOv8, YOLOv9) with NVIDIA DeepStream 7.0 and Triton I
 - Support for YOLOv7, YOLOv8, YOLOv9 detection models
 - End-to-end TensorRT inference with EfficientNMS
 - Triton Inference Server integration via gRPC
+- **Standalone mode** - Run without separate Triton server using embedded backend
 - Custom bounding box parser for YOLO NMS output
 
 ## Requirements
@@ -22,6 +23,7 @@ Run YOLO models (YOLOv7, YOLOv8, YOLOv9) with NVIDIA DeepStream 7.0 and Triton I
 ```
 deepstream-triton-yolo/
 ├── deepstream_yolo_det.txt       # Main DeepStream config for detection
+├── pgie_yolov8_standalone.txt    # Standalone config (no Triton server needed)
 ├── labels.txt                    # COCO class labels
 ├── nvdsinfer_yolo/               # Custom parser library
 │   ├── nvdsinfer_yolo.cpp
@@ -85,7 +87,7 @@ cp yolov8.engine triton_models/yolov8/1/model.plan
 cp yolov9.engine triton_models/yolov9/1/model.plan
 ```
 
-### 4. Start Triton Server
+### 4. Start Triton Server (gRPC Mode)
 ```bash
 tritonserver --model-repository=./triton_models
 ```
@@ -96,6 +98,17 @@ docker run --gpus all --rm -p 8000:8000 -p 8001:8001 -p 8002:8002 \
   -v $(pwd)/triton_models:/models \
   nvcr.io/nvidia/tritonserver:24.08-py3 \
   tritonserver --model-repository=/models
+```
+
+### 4b. Standalone Mode (No Triton Server Required)
+Use `pgie_yolov8_standalone.txt` to run inference directly without starting a separate Triton server. This config uses the embedded Triton backend via `model_repo` instead of gRPC:
+
+```bash
+# Edit deepstream_yolo_det.txt and set:
+config-file=./pgie_yolov8_standalone.txt
+
+# Run directly - no tritonserver needed!
+deepstream-app -c deepstream_yolo_det.txt
 ```
 
 ### 5. Build Custom Parser Library
