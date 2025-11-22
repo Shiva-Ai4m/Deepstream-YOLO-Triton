@@ -168,14 +168,28 @@ The end-to-end NMS model outputs:
 - `det_scores`: Confidence scores [batch_size, topk]
 - `det_classes`: Class indices [batch_size, topk]
 
-## Acknowledgements
-- [deepstream-triton-server-yolo](https://github.com/levipereira/deepstream-triton-server-yolo) - Original implementation by Levi Pereira
+## Acknowledgements & Credits
+
+This project builds upon the excellent work of the following developers and projects. Special thanks to:
+
+### Core Dependencies
+- **[Levi Pereira](https://github.com/levipereira)** - This project is heavily based on his work:
+  - [deepstream-triton-server-yolo](https://github.com/levipereira/deepstream-triton-server-yolo) - Original DeepStream + Triton + YOLO implementation
+  - [nvdsinfer_yolo](https://github.com/levipereira/nvdsinfer_yolo) - Custom bounding box parser for YOLO NMS output
+
+### YOLO Models
+- **[WongKinYiu](https://github.com/WongKinYiu)** - Creator of YOLOv7 and YOLOv9:
+  - [YOLOv7](https://github.com/WongKinYiu/yolov7)
+  - [YOLOv9](https://github.com/WongKinYiu/yolov9)
+- **[Ultralytics](https://github.com/ultralytics)** - [YOLOv8](https://github.com/ultralytics/ultralytics)
+- **[triple-Mu](https://github.com/triple-Mu)** - [YOLOv8-TensorRT](https://github.com/triple-Mu/YOLOv8-TensorRT) export scripts
+
+### NVIDIA
 - [NVIDIA DeepStream SDK](https://developer.nvidia.com/deepstream-sdk)
 - [Triton Inference Server](https://github.com/triton-inference-server/server)
-- [YOLOv7](https://github.com/WongKinYiu/yolov7)
-- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
-- [YOLOv8-TensorRT](https://github.com/triple-Mu/YOLOv8-TensorRT)
-- [nvdsinfer_yolo](https://github.com/levipereira/nvdsinfer_yolo) - Custom parser by Levi Pereira
+- [TensorRT](https://developer.nvidia.com/tensorrt)
 
 ## License
 Apache-2.0 License
+
+This project respects and follows the licensing terms of all dependencies listed above.
