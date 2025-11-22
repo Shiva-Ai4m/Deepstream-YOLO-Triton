@@ -25,6 +25,8 @@ deepstream-triton-yolo/
 ├── deepstream_yolo_det.txt       # Main DeepStream config for detection
 ├── pgie_yolov8_standalone.txt    # Standalone config (no Triton server needed)
 ├── labels.txt                    # COCO class labels
+├── tools/                        # Export scripts
+│   └── export_yolov9.py          # YOLOv9 export with fixed input support
 ├── nvdsinfer_yolo/               # Custom parser library
 │   ├── nvdsinfer_yolo.cpp
 │   ├── Makefile
@@ -67,6 +69,17 @@ cp /path/to/deepstream-triton-yolo/export-det.py .
 python3 export-det.py --weights yolov8s.pt --iou-thres 0.65 \
     --conf-thres 0.25 --topk 100 --opset 11 --sim \
     --input-shape 1 3 640 640 --device cuda:0 --dynamic
+```
+
+**YOLOv9:**
+```bash
+git clone https://github.com/WongKinYiu/yolov9
+cd yolov9
+# Copy the modified export script from this repo
+cp /path/to/deepstream-triton-yolo/tools/export_yolov9.py .
+python export_yolov9.py --weights yolov9-c.pt --include onnx_end2end \
+    --topk-all 100 --iou-thres 0.65 --conf-thres 0.25 \
+    --imgsz 640 640 --device 0 --fixed-input
 ```
 
 ### 2. Convert ONNX to TensorRT Engine
